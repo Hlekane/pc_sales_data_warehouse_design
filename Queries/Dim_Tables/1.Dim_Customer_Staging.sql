@@ -19,6 +19,6 @@ INSERT INTO [PC_Sales_Stg].[dbo].[Dim_Customer] (Customer_Name, Customer_Surname
 SELECT DISTINCT Customer_Name, Customer_Surname, Customer_Contact_Number, Customer_Email_Address
 FROM [PC_Sales_Stg].[dbo].[PC_sales_dataset_Stg];
 
--- Check whether the table was succesfully selected
+-- Check whether the table was succesfully created
 
 SELECT * FROM [PC_Sales_Stg].[dbo].[Dim_Customer];
