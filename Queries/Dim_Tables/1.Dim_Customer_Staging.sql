@@ -5,12 +5,12 @@ DROP TABLE [PC_Sales_Stg].[dbo].[Dim_Customer];
 
 -- Create table if it does not exist
 
-CREATE TABLE [dbo].[Dim_Customer](
+CREATE TABLE [PC_Sales_Stg].[dbo].[Dim_Customer](
 	[Customer_ID] INT IDENTITY (1,1) PRIMARY KEY,
-	[Customer_Name] [nvarchar](50) NOT NULL,
-	[Customer_Surname] [nvarchar](50) NOT NULL,
-	[Customer_Contact_Number] [nvarchar](50) NOT NULL,
-	[Customer_Email_Address] [nvarchar](50) NOT NULL
+	[Customer_Name] [nvarchar](255) NOT NULL,
+	[Customer_Surname] [nvarchar](255) NOT NULL,
+	[Customer_Contact_Number] [nvarchar](255) NOT NULL,
+	[Customer_Email_Address] [nvarchar](255) NOT NULL
 );
 
 -- Insert data into the customer dimension from the staging dataset, use distinct to remove duplicates

@@ -7,7 +7,7 @@ DROP TABLE [PC_Sales_Stg].[dbo].[Dim_Channel]
 
 CREATE TABLE [PC_Sales_Stg].[dbo].[Dim_Channel](
 	[Channel_ID] INT IDENTITY (1,1) PRIMARY KEY,
-	[Channel] [nvarchar](50) NOT NULL
+	[Channel] [nvarchar](255) NOT NULL
 ) 
 
 -- Insert data into the customer dimension from the staging dataset, use distinct to remove duplicates

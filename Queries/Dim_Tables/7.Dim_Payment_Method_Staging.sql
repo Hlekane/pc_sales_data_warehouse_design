@@ -6,7 +6,7 @@ DROP TABLE [PC_Sales_Stg].[dbo].[Dim_Payment_Method]
 
 CREATE TABLE [PC_Sales_Stg].[dbo].[Dim_Payment_Method](
 	[Payment_Method_ID] INT IDENTITY (1,1) PRIMARY KEY,
-	[Payment_Method] [nvarchar](50) NOT NULL
+	[Payment_Method] [nvarchar](255) NOT NULL
 )
 
 -- Insert data into the customer dimension from the staging dataset, use distinct to remove duplicates

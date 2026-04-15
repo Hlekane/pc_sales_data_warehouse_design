@@ -6,8 +6,8 @@ DROP TABLE [PC_Sales_Stg].[dbo].[Dim_Store]
 
 CREATE TABLE [PC_Sales_Stg].[dbo].[Dim_Store](
 	[Store_ID] INT IDENTITY (1,1) PRIMARY KEY,
-	[Shop_Name] [nvarchar](50) NOT NULL,
-	[Shop_Age] [nvarchar](50) NOT NULL
+	[Shop_Name] [nvarchar](255) NOT NULL,
+	[Shop_Age] [nvarchar](255) NOT NULL
 )
 
 -- Insert data into the customer dimension from the staging dataset, use distinct to remove duplicates
