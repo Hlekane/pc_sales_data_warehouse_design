@@ -1,3 +1,5 @@
+USE PC_Sales_Stg
+GO
 
 CREATE PROCEDURE Sp_Create_Dim_Channel
 AS
@@ -23,6 +25,6 @@ FROM [PC_Sales_Stg].[dbo].[PC_sales_dataset_Stg]
 -- Check whether the table was succesfully created
 
 SELECT * FROM [PC_Sales_Stg].[dbo].[Dim_Channel]
+
 END;
 
-EXEC Sp_Create_Dim_Channel

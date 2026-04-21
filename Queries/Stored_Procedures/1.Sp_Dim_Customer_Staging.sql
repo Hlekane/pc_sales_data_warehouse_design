@@ -28,6 +28,6 @@ SELECT * FROM [PC_Sales_Stg].[dbo].[Dim_Customer]
 
 END;
 
-EXEC sp_create_dim_customer
+
 
 

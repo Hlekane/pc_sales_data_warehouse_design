@@ -1,3 +1,5 @@
+USE PC_Sales_Stg
+GO
 
 CREATE PROCEDURE Sp_Create_Dim_Payment_Method
 AS
@@ -27,4 +29,4 @@ SELECT * FROM [PC_Sales_Stg].[dbo].[Dim_Payment_Method]
 
 END;
 
-EXEC Sp_Create_Dim_Payment_Method
+

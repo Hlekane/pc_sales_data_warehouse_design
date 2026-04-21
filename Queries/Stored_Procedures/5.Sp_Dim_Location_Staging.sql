@@ -1,3 +1,5 @@
+USE PC_Sales_Stg
+GO
 
 CREATE PROCEDURE Sp_Create_Dim_Location
 AS
@@ -28,4 +30,3 @@ SELECT * FROM [PC_Sales_Stg].[dbo].[Dim_Location]
 
 END;
 
-EXEC Sp_Create_Dim_Location

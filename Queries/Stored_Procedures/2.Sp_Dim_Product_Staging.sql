@@ -1,4 +1,5 @@
-
+USE PC_Sales_Stg
+GO
 -- Create the SP for the dim product
 CREATE PROCEDURE Sp_Create_Dim_Product
 AS
@@ -29,4 +30,3 @@ SELECT * FROM [PC_Sales_Stg].[dbo].[Dim_Product]
 
 END;
 
-EXEC sp_create_dim_product
