@@ -1,111 +1,166 @@
-# PC Sales ETLs - Building a data pipeline
+# 🖥️ PC Sales Data Warehouse (ETL Pipeline)
 
-![SQL Server](https://img.shields.io/badge/SQL%20Server-T--SQL-CC2927?style=for-the-badge&logo=microsoftsqlserver&logoColor=white)
-![SSMS](https://img.shields.io/badge/SSMS-Database%20IDE-0078D4?style=for-the-badge&logo=microsoft&logoColor=white)
-
-A data warehousing learning project focused on transforming a flat CSV dataset into a structured star schema using SQL Server.
+> A hands-on data engineering project demonstrating the design and implementation of a staging layer for a PC sales data warehouse, built with SQL Server and T-SQL.
 
 ---
 
-## Project Overview
+## 📌 Project Overview
 
-This project models PC sales transactions across stores, channels, and salespeople. Data is first loaded into a staging table, then cleaned and transformed into a fact table supported by nine dimension tables.
+This project builds a structured **ETL pipeline** for a fictional PC sales business. The focus is on the foundational layers of data engineering: extracting raw data, staging it safely, validating quality, and preparing it for dimensional modelling using a star schema.
 
-The emphasis is on understanding **data flow from raw source → staging → analytical model**, rather than only querying final outputs.
-
----
-
-## Star Schema
-
-![Star Schema](star_schema.png)
+The project is being developed incrementally, reflecting real-world data warehouse practices one phase at a time.
 
 ---
 
-## Project Planning
+## 🗂️ Project Planning — Notion
 
-| Phase | Task | Status |
-|-------|------|--------|
-| 1 | Design star schema (fact vs dimensions) | ✅ Done |
-| 2 | Create staging layer and load CSV data | ✅ Done |
-| 3 | Build dimension tables with surrogate keys | ✅ Done |
-| 4 | Create fact table with foreign keys | ✅ Done |
-| 5 | Automate fact table creation (stored procedure) | ✅ Done |
-| 6 | Load measures from staging into fact table | ✅ Done |
-| 7 | Add audit column (`LoadDate`) | ✅ Done |
-| 8 | Build Power BI visuals | 🔄 In Progress |
+Project tasks and epics are tracked in Notion, broken down by data warehouse stages with progress indicators.
 
----
+| Epic | Tasks Defined | Status |
+|---|---|---|
+| Requirements Analysis | Business requirements scoping | 0% — Not Started |
+| Design Data Architecture | Extract method, data exploration, staging layer, star schema design | 0% — Not Started |
+| Project Initialisation | Git repo setup ✅, DB & schemas, Notion task board ✅, naming conventions ✅ | 50% — In Progress |
 
-## Key Concepts Demonstrated
-
-- **Star schema design** for analytical querying  
-- **Staging layer** to preserve raw data before transformation  
-- **Surrogate keys** (`IDENTITY`) to decouple source data from the model  
-- **Foreign key constraints** to enforce referential integrity  
-- **Stored procedures** to automate table lifecycle (drop → create → load)  
-- **Data cleaning** and deduplication using `DISTINCT`  
-- **Basic data lineage** using `LoadDate` audit column  
+> **Completed so far:** Git repository created and structured, project naming conventions defined, and Notion task board configured with epics and sub-tasks.
 
 ---
 
-## Fact Table Measures
+## ⚙️ ETL Pipeline Phases
 
-`PC_Sales_Fact` captures transactional metrics:
-
-| Column | Description |
-|--------|-------------|
-| `Cost_Price` | Unit cost |
-| `Sale_Price` | Selling price |
-| `Discount_Amount` | Discount applied |
-| `Finance_Amount` | Financed portion |
-| `Credit_Score` | Customer credit score |
-| `Cost_of_Repairs` | Post-sale repair cost |
-| `Total_Sales_per_Employee` | Running sales per salesperson |
-| `PC_Market_Price` | Market value at time of sale |
+| Phase | Description | Status |
+|---|---|---|
+| **Extract** | Import flat file (CSV) into SQL Server staging tables | 🔄 In Progress |
+| **Explore** | Data profiling — quality, completeness, structure, format | 🔄 In Progress |
+| **Stage** | Load raw data into the staging database layer | 🔄 In Progress |
+| **Validate** | Schema checks, null checks, duplicate detection, type validation | 📋 Planned |
+| **Transform** | Cleanse and structure data for dimensional loading | 📋 Planned |
+| **Load** | Populate fact and dimension tables | 📋 Planned |
+| **Automate** | Schedule workflows using SQL Server Agent | 📋 Planned |
 
 ---
 
-## Dimension Tables
+## 🗃️ Staging Layer
 
-| Dimension | Grain |
-|-----------|-------|
-| `dim_Customer` | One row per customer |
-| `dim_Date` | One row per date |
-| `dim_Location` | One row per location |
-| `dim_Channel` | One row per channel |
-| `dim_Payment_Method` | One row per payment type |
-| `dim_Store` | One row per store |
-| `dim_Product` | One row per product |
-| `dim_Priority` | One row per priority level |
-| `dim_Salesperson` | One row per salesperson |
+Raw data is ingested from a flat CSV file into staging tables before any transformation occurs. This preserves the source data and allows for full auditability and reprocessing.
+
+**Stored procedures handle:**
+- Creating and resetting staging tables
+- Preparing dimension and fact table shells
+- Supporting repeatable, automated ETL runs
 
 ---
 
-## Tech Stack
+## ✅ Data Validation (Staging Phase)
+
+Before transformation, the following checks are applied to the staged data:
+
+| Check | Description |
+|---|---|
+| Schema Validation | Correct columns and data types are present |
+| Null Checks | Required fields must not be empty |
+| Duplicate Detection | No repeated records allowed |
+| Data Type Validation | Dates and numeric fields are correctly formatted |
+| Row Count Reconciliation | Source CSV row count matches staged row count |
+| Referential Sanity | Basic relationship checks between key fields |
+
+---
+
+## 🌟 Star Schema Design
+
+The target dimensional model is a star schema centred on `Fact_PC_Sales`, surrounded by eight dimension tables capturing all analytical context.
+
+<img width="1009" height="893" alt="PC_Data_Modelling" src="https://github.com/user-attachments/assets/acb74278-8c51-46da-8b13-13dac7c3e4af" />
+
+
+### Fact Table
+
+**`Fact_PC_Sales`** — central table containing all transactional measures and foreign keys.
+
+| Column | Type | Description |
+|---|---|---|
+| PC_Sales_ID | PK | Unique sale identifier |
+| Location_ID | FK | Links to Dim_Location |
+| Date_ID | FK | Links to Dim_Date |
+| Customer_ID | FK | Links to Dim_Customer |
+| SalesPerson_ID | FK | Links to Dim_Salesperson |
+| Store_ID | FK | Links to Dim_Store |
+| Payment_ID | FK | Links to Dim_Payment |
+| Product_ID | FK | Links to Dim_Product |
+| Priority_ID | FK | Links to Dim_Priority |
+| Channel_ID | FK | Links to Dim_Channel |
+| Sales_Price | Measure | Unit sale price |
+| Total_Sales | Measure | Total transaction value |
+| Credit_Score | Measure | Customer credit score |
+| Discount_Amount | Measure | Discount applied |
+| Cost_Price | Measure | Product cost price |
+| Cost_Of_Repairs | Measure | Post-sale repair cost |
+
+### Dimension Tables
+
+| Dimension | Key Attributes |
+|---|---|
+| `Dim_Customer` | Customer_Name, Contact_Number, Email, Shipping_Address |
+| `Dim_Product` | PC_Make, PC_Model, Storage_Type, RAM, Storage_Capacity |
+| `Dim_Date` | Transactional_Date, Ship_Date |
+| `Dim_Location` | Continent, Country_Or_State, Province_Or_City |
+| `Dim_Store` | Store_Name, Store_Age |
+| `Dim_Salesperson` | Salesperson_Name, Department, Sales_Location |
+| `Dim_Payment` | Payment_Method |
+| `Dim_Channel` | Channel (e.g. Online, In-Store) |
+| `Dim_Priority` | Priority level |
+
+---
+
+## 🛠️ Tech Stack
 
 | Tool | Purpose |
-|------|---------|
-| SQL Server / T-SQL | Data modelling, transformations, stored procedures |
-| SSMS | Query development and testing |
-| Power BI | Data visualisation |
-| GitHub | Version control and documentation |
+|---|---|
+| SQL Server | Database engine |
+| T-SQL | Stored procedures and validation logic |
+| SSMS | Development and query environment |
+| Notion | Project planning and task tracking |
+| Draw.io | Star schema design |
+| Git / GitHub | Version control |
 
 ---
 
-## What I Learned
+## 📁 Repository Structure
 
-- How to move from a flat dataset to a structured analytical model  
-- Why separating facts and dimensions improves query performance and clarity  
-- How schema changes impact downstream dependencies (e.g., foreign keys)  
-- The value of automation using stored procedures for repeatable workflows  
+```
+pc-sales-data-warehouse/
+│
+├── docs/
+│   └── PC_Data_Modelling.jpg       # Star schema diagram
+│
+├── staging/
+│   ├── create_staging_tables.sql   # Staging table definitions
+│   └── stored_procedures.sql       # ETL stored procedures
+│
+├── validation/
+│   └── validation_checks.sql       # Data quality checks
+│
+├── schema/
+│   └── star_schema_ddl.sql         # Dimension and fact table DDL
+│
+└── README.md
+```
 
 ---
 
-## Next Steps
+## 🔜 Next Steps
 
-- Convert `Finance_Amount` and `Cost_of_Repairs` to `DECIMAL`  
-- Align all foreign key data types with dimension primary keys  
-- Create reporting views for easier Power BI integration  
-- Add indexing to improve query performance  
+1. Complete data exploration and document findings
+2. Implement validation checks against staged data
+3. Build transformation logic to cleanse and standardise records
+4. Populate all dimension tables
+5. Load `Fact_PC_Sales` with validated, transformed data
+6. Introduce automation using SQL Server Agent jobs
+7. Build reporting-ready views on top of the star schema
 
 ---
+
+## 📝 About
+
+This project is part of a structured self-directed learning journey into **data engineering and data warehousing**. Each phase is planned, tracked, and implemented to reflect real-world ETL practices — from raw data ingestion through to a reporting-ready dimensional model.
+
