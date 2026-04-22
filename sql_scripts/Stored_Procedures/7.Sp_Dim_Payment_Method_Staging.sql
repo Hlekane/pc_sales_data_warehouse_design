@@ -1,17 +1,17 @@
-USE PC_Sales_Stg
+USE pc_sales_stg
 GO
 
-CREATE PROCEDURE Sp_Create_Dim_Payment_Method
+CREATE PROCEDURE sp_create_dim_payment_method
 AS
 BEGIN
 
 -- Drop the initial payment dimension without a unique ID
 
-DROP TABLE [PC_Sales_Stg].[dbo].[Dim_Payment_Method]
+DROP TABLE [pc_sales_stg].[dbo].[dim_payment_method]
 
 -- Create a new table and insert a unique ID
 
-CREATE TABLE [PC_Sales_Stg].[dbo].[Dim_Payment_Method](
+CREATE TABLE [pc_sales_stg].[dbo].[dim_payment_method](
 	[Payment_Method_ID] INT IDENTITY (1,1) PRIMARY KEY,
 	[Payment_Method] [nvarchar](255) NOT NULL,
 	[LoadDate] DATETIME DEFAULT GETDATE()
@@ -19,13 +19,13 @@ CREATE TABLE [PC_Sales_Stg].[dbo].[Dim_Payment_Method](
 
 -- Insert data into the payment dimension from the staging dataset, use distinct to remove duplicates
 
-INSERT INTO [PC_Sales_Stg].[dbo].[Dim_Payment_Method](Payment_Method)
+INSERT INTO [pc_sales_stg].[dbo].[dim_payment_method](Payment_Method)
 SELECT DISTINCT Payment_Method
-FROM [PC_Sales_Stg].[dbo].[PC_sales_dataset_Stg]
+FROM [pc_sales_stg].[dbo].[pc_sales_dataset_stg]
 
 -- Check whether the table was succesfully created
 
-SELECT * FROM [PC_Sales_Stg].[dbo].[Dim_Payment_Method]
+SELECT * FROM [pc_sales_stg].[dbo].[dim_payment_method]
 
 END;
 

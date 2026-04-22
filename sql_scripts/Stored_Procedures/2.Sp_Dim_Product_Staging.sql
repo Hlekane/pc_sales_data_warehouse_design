@@ -1,14 +1,14 @@
-USE PC_Sales_Stg
+USE pc_sales_stg
 GO
 -- Create the SP for the dim product
-CREATE PROCEDURE Sp_Create_Dim_Product
+CREATE PROCEDURE sp_create_dim_product
 AS
 BEGIN
 -- Drop the initial product dimension without a unique ID
-DROP TABLE [PC_Sales_Stg].[dbo].[Dim_Product]
+DROP TABLE [pc_sales_stg].[dbo].[dim_product]
 
 -- Create a new table and insert a unique ID
-CREATE TABLE [PC_Sales_Stg].[dbo].[Dim_Product](
+CREATE TABLE [pc_sales_stg].[dbo].[dim_product](
 	[Product_ID] INT IDENTITY (1,1) PRIMARY KEY,
 	[PC_Make] [nvarchar](255) NOT NULL,
 	[PC_Model] [nvarchar](255) NOT NULL,
@@ -20,13 +20,13 @@ CREATE TABLE [PC_Sales_Stg].[dbo].[Dim_Product](
 
 -- Insert data into the product dimension from the staging dataset, use distinct to remove duplicates
 
-INSERT INTO [PC_Sales_Stg].[dbo].[Dim_Product](PC_Make,PC_Model,Storage_Type,Storage_Capacity,RAM)
+INSERT INTO [pc_sales_stg].[dbo].[dim_product](PC_Make,PC_Model,Storage_Type,Storage_Capacity,RAM)
 SELECT DISTINCT PC_Make,PC_Model,Storage_Type,Storage_Capacity,RAM
-FROM [PC_Sales_Stg].[dbo].[PC_sales_dataset_Stg]
+FROM [pc_sales_stg].[dbo].[pc_sales_dataset_stg];
 
 -- Check whether the table was succesfully created
 
-SELECT * FROM [PC_Sales_Stg].[dbo].[Dim_Product]
+SELECT * FROM [pc_sales_stg].[dbo].[dim_product]
 
 END;
 

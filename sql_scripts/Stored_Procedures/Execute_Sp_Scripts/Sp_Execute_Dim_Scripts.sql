@@ -1,20 +1,20 @@
 -- Execution scripts to call on the saved stored procedures statements
-USE PC_Sales_Stg
+USE pc_sales_stg
 GO
 
-CREATE PROCEDURE Sp_Get_Dims
+CREATE PROCEDURE sp_get_dims
 AS
 BEGIN
 
 EXEC sp_create_dim_customer;
 EXEC sp_create_dim_product;
-EXEC Sp_Create_Dim_Date;
-EXEC Sp_Create_Dim_Salesperson;
-EXEC Sp_Create_Dim_Location;
-EXEC Sp_Create_Dim_Channel;
-EXEC Sp_Create_Dim_Payment_Method;
-EXEC Sp_Create_Dim_Priority;
-EXEC Sp_Create_Dim_Store;
+EXEC sp_create_dim_date;
+EXEC sp_create_dim_salesperson;
+EXEC sp_create_dim_location;
+EXEC sp_create_dim_channel;
+EXEC sp_create_dim_payment_method;
+EXEC sp_create_dim_priority;
+EXEC sp_create_dim_store;
 
 END;
 

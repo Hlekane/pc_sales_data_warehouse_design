@@ -1,16 +1,16 @@
-USE PC_Sales_Stg
+USE pc_sales_stg
 GO
 
-CREATE PROCEDURE Sp_Create_PC_Sales_Fact
+CREATE PROCEDURE sp_create_pc_sales_fact
 AS
 BEGIN
 -- Drop the initial fact table without a unique ID
 
-DROP TABLE [PC_Sales_Stg].[dbo].[PC_Sales_Fact]
+DROP TABLE [pc_sales_stg].[dbo].[pc_sales_fact]
 
 -- Create a new table and insert FK
 
-CREATE TABLE [PC_Sales_Stg].[dbo].[PC_Sales_Fact](
+CREATE TABLE [pc_sales_stg].[dbo].[pc_sales_fact](
 	[PC_Sales_ID] INT IDENTITY (1,1) PRIMARY KEY,
 	[Customer_ID] [int],
 	[Date_ID] [int],
@@ -34,41 +34,41 @@ CREATE TABLE [PC_Sales_Stg].[dbo].[PC_Sales_Fact](
 	-- inserting foreign keys
 	Constraint fk_Customer_ID
 			Foreign key (Customer_ID)
-			References [PC_Sales_Stg].[dbo].[dim_Customer] (Customer_ID),
+			References [pc_sales_stg].[dbo].[dim_customer] (Customer_ID),
 	Constraint fk_Channel_ID
 			Foreign key (Channel_ID)
-			References [PC_Sales_Stg].[dbo].[dim_Channel] (Channel_ID),
+			References [pc_sales_stg].[dbo].[dim_channel] (Channel_ID),
 	Constraint fk_Date_ID
 			Foreign key (Date_ID)
-			References [PC_Sales_Stg].[dbo].[dim_Date] (Date_ID),
+			References [pc_sales_stg].[dbo].[dim_date] (Date_ID),
 	Constraint fk_Location_ID
 			Foreign key (Location_ID)
-			References [PC_Sales_Stg].[dbo].[Dim_Location] (Location_ID),
+			References [pc_sales_stg].[dbo].[dim_location] (Location_ID),
 	Constraint fk_Payment_Method_ID
 			Foreign key (Payment_Method_ID)
-			References [PC_Sales_Stg].[dbo].[dim_Payment_Method] (Payment_Method_ID),
+			References [pc_sales_stg].[dbo].[dim_payment_method] (Payment_Method_ID),
 	Constraint fk_Store_ID
 			Foreign key (Store_ID)
-			References [PC_Sales_Stg].[dbo].[dim_Store] (Store_ID),
+			References [pc_sales_stg].[dbo].[dim_store] (Store_ID),
 	Constraint fk_Product_ID
 			Foreign key (Product_ID)
-			References [PC_Sales_Stg].[dbo].[dim_Product] (Product_ID),
+			References [pc_sales_stg].[dbo].[dim_product] (Product_ID),
 	Constraint fk_Priority_ID
 			Foreign key (Priority_ID)
-			References [PC_Sales_Stg].[dbo].[dim_Priority] (Priority_ID),
+			References [pc_sales_stg].[dbo].[dim_priority] (Priority_ID),
 	Constraint fk_Salesperson_ID
 			Foreign key (Salesperson_ID)
-			References [PC_Sales_Stg].[dbo].[dim_Salesperson] (Salesperson_ID),
+			References [pc_sales_Stg].[dbo].[dim_salesperson] (Salesperson_ID),
 );
 
 -- Insert data into the fact table from the staging dataset, use distinct to remove duplicates
 
-INSERT INTO [PC_Sales_Stg].[dbo].[PC_Sales_Fact](Cost_Price,Sale_Price,Discount_Amount,Finance_Amount,Credit_Score,Cost_of_Repairs,Total_Sales_per_Employee,PC_Market_Price)
+INSERT INTO [pc_sales_stg].[dbo].[pc_sales_fact](Cost_Price,Sale_Price,Discount_Amount,Finance_Amount,Credit_Score,Cost_of_Repairs,Total_Sales_per_Employee,PC_Market_Price)
 SELECT Cost_Price,Sale_Price,Discount_Amount,Finance_Amount,Credit_Score,Cost_of_Repairs,Total_Sales_per_Employee,PC_Market_Price
-FROM [PC_Sales_Stg].[dbo].[PC_sales_dataset_Stg];
+FROM [pc_sales_stg].[dbo].[pc_sales_dataset_stg];
 
 -- Check whether the table was succesfully created
-SELECT * FROM [PC_Sales_Stg].[dbo].[PC_Sales_Fact];
+SELECT * FROM [pc_sales_stg].[dbo].[pc_sales_fact];
 
 END;
 

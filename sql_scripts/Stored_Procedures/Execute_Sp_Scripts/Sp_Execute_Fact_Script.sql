@@ -1,13 +1,13 @@
 
 
 -- Execution scripts to call on the saved stored procedures statement for the dact table
-USE PC_Sales_Stg
+USE pc_sales_stg
 GO
 
-CREATE PROCEDURE Sp_Get_Fact_Table
+CREATE PROCEDURE sp_get_fact_table
 AS
 BEGIN
 
-EXEC Sp_Create_PC_Sales_Fact
+EXEC sp_create_pc_sales_fact
 
 END;

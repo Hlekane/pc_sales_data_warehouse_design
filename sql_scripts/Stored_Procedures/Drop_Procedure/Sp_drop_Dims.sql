@@ -1,30 +1,30 @@
 -- Create a stored procedure to DROP the stored procedures for the all the dim tables
 
-USE PC_Sales_Stg
+USE pc_sales_stg
 GO
 
 
-CREATE PROCEDURE Sp_Drop_Dim_Procedures
+CREATE PROCEDURE sp_drop_dim_procedures
 AS 
 BEGIN
-DROP PROCEDURE Sp_Create_Dim_Customer;
+DROP PROCEDURE sp_create_dim_customer;
 
-DROP PROCEDURE Sp_Create_Dim_Product;
+DROP PROCEDURE sp_create_dim_product;
 
-DROP PROCEDURE Sp_Create_Dim_Date;
+DROP PROCEDURE sp_create_dim_date;
 
-DROP PROCEDURE Sp_Create_Dim_Salesperson;
+DROP PROCEDURE sp_create_dim_salesperson;
 
-DROP PROCEDURE Sp_Create_Dim_Location;
+DROP PROCEDURE sp_create_dim_location;
 
-DROP PROCEDURE Sp_Create_Dim_Channel;
+DROP PROCEDURE sp_create_dim_channel;
 
-DROP PROCEDURE Sp_Create_Dim_Payment_Method;
+DROP PROCEDURE sp_create_dim_payment_method;
 
-DROP PROCEDURE Sp_Create_Dim_Priority;
+DROP PROCEDURE sp_create_dim_priority;
 
-DROP PROCEDURE Sp_Create_Dim_Store;
+DROP PROCEDURE sp_create_dim_store;
 
 END;
 
-EXEC Sp_Drop_Dim_Procedures
+EXEC sp_drop_dim_procedures
