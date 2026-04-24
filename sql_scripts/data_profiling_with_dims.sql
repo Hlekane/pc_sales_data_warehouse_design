@@ -1,5 +1,6 @@
 USE pc_sales_stg;
 
+
 GO
 /* Removing duplicated data*/
 /* Location Dim*/
@@ -10,12 +11,14 @@ select
 from
   Pc_Sales_Stg.dbo.Pc_Sales_Dataset_Stg;
 
+
 /* Store Dim*/
 select
   distinct Shop_Name,
   Shop_Age into Pc_Sales_Stg.Dbo.Dim_Store
 from
   Pc_Sales_Stg.dbo.Pc_Sales_Dataset_Stg;
+
 
 /* Product Dim*/
 select
@@ -27,6 +30,7 @@ select
 from
   Pc_Sales_Stg.dbo.Pc_Sales_Dataset_Stg;
 
+
 /*Customer Dim*/
 select
   distinct Customer_Name,
@@ -36,12 +40,14 @@ select
 from
   Pc_Sales_Stg.dbo.Pc_Sales_Dataset_Stg;
 
+
 /*Date Dim*/
 select
   distinct Purchase_Date,
   Ship_Date into Pc_Sales_Stg.Dbo.Dim_Date
 from
   Pc_Sales_Stg.dbo.Pc_Sales_Dataset_Stg;
+
 
 /*Salespersons Dim*/
 select
@@ -50,11 +56,13 @@ select
 from
   Pc_Sales_Stg.dbo.Pc_Sales_Dataset_Stg;
 
+
 /* Payment Dim*/
 select
   distinct Payment_Method into Pc_Sales_Stg.Dbo.Dim_Payment_Method
 from
   Pc_Sales_Stg.dbo.Pc_Sales_Dataset_Stg;
+
 
 /*Channel Dim*/
 select
@@ -62,11 +70,13 @@ select
 from
   Pc_Sales_Stg.dbo.Pc_Sales_Dataset_Stg;
 
+
 /*Priority Dim */
 select
   distinct Priority into Pc_Sales_Stg.Dbo.Dim_Priority
 from
   Pc_Sales_Stg.dbo.Pc_Sales_Dataset_Stg;
+
 
 /* PC_Sales Fact Table*/
 select
