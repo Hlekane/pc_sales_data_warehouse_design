@@ -4,15 +4,15 @@
 ![SQL Server](https://img.shields.io/badge/SQL%20Server-T--SQL-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-A data engineering project focused on building a solid and scalable ETL pipeline for a PC sales business. The project is being developed incrementally — currently at the staging phase, which forms the foundation of any reliable data pipeline.
+A data engineering project focused on building a solid and scalable ETL pipeline for a PC sales business. The project is being developed incrementally. It is currently at the staging phase, which forms the foundation of any reliable data pipeline.
 
 ---
 
 ## 📌 Overview
 
-This project is a hands-on learning journey through the core disciplines of data engineering. The current focus is the **data landing and staging layer** — the critical first step in building a pipeline that is clean, auditable, and scalable.
+This project is a hands-on learning journey through the core disciplines of data engineering. The current focus is the **data landing and staging layer**, the critical first step in building a pipeline that is clean, auditable, and scalable.
 
-The staging layer is where raw source data lands before anything else happens to it. Getting this right matters: a well-structured staging layer protects the integrity of everything downstream, from validation through to the final dimensional model.
+The staging layer is where raw source data lands before anything else happens to it. Getting this right matters because a well-structured staging layer protects the integrity of everything downstream, from validation through to the final dimensional model.
 
 The transformation and extraction layers will be built out as the project progresses.
 
