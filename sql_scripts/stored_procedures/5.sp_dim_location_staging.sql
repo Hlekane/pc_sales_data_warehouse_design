@@ -1,4 +1,5 @@
-USE pc_sales_stg GO CREATE OR ALTER Procedure Sp_Create_Dim_Location as begin
+USE pc_sales_stg GO CREATE
+OR ALTER Procedure Sp_Create_Dim_Location as begin
 /*Drop the initial location dimension without a unique ID*/
 drop table
   Pc_Sales_Stg.Dbo.Dim_Location

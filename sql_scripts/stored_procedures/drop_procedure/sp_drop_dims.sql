@@ -1,6 +1,7 @@
 /* Create a stored procedure to DROP the stored procedures for the 
  all the dim tables*/
-USE pc_sales_stg GO create Procedure Sp_Drop_Dim_Procedures as begin drop Procedure Sp_Create_Dim_Customer;
+USE pc_sales_stg GO CREATE
+OR ALTER Procedure Sp_Drop_Dim_Procedures as begin drop Procedure Sp_Create_Dim_Customer;
 
 
 drop Procedure Sp_Create_Dim_Product;

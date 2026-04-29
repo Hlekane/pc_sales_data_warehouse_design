@@ -1,4 +1,5 @@
-USE pc_sales_stg GO CREATE OR ALTER Procedure Sp_Create_Pc_Sales_Fact as begin
+USE pc_sales_stg GO CREATE
+OR ALTER Procedure Sp_Create_Pc_Sales_Fact as begin
 /* Drop the initial fact table without a unique ID*/
 drop table
   Pc_Sales_Stg.Dbo.Pc_Sales_Fact

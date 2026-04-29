@@ -1,5 +1,6 @@
 /*Create store procedure to create the dim customer table*/
-CREATE OR ALTER Procedure Sp_Create_Dim_Customer as begin
+CREATE
+OR ALTER Procedure Sp_Create_Dim_Customer as begin
 /*drop dim customer if it exists */
 drop table
   Pc_Sales_Stg.Dbo.Dim_Customer;

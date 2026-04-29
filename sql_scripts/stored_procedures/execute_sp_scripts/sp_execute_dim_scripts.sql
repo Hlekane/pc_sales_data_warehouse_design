@@ -1,5 +1,6 @@
 /* Execution scripts to call on the saved stored procedures statements*/
-USE pc_sales_stg GO create Procedure Sp_Get_Dims as begin Exec Sp_Create_Dim_Customer;
+USE pc_sales_stg GO CREATE
+OR ALTER Procedure Sp_Get_Dims as begin Exec Sp_Create_Dim_Customer;
 
 
 Exec Sp_Create_Dim_Product;

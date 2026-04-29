@@ -1,6 +1,7 @@
 USE pc_sales_stg GO
 /*Drop the initial date dimension without a unique ID*/
-CREATE OR ALTER Procedure Sp_Create_Dim_Date as begin
+CREATE
+OR ALTER Procedure Sp_Create_Dim_Date as begin
 /*Create a new table and insert a unique ID*/
 drop table
   Pc_Sales_Stg.Dbo.Dim_Date
