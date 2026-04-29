@@ -1,4 +1,4 @@
-USE pc_sales_stg GO create Procedure Sp_Create_Dim_Channel as begin
+USE pc_sales_stg GO CREATE OR ALTER Procedure Sp_Create_Dim_Channel as begin
 /*Drop the initial channel dimension without a unique ID*/
 drop table
   Pc_Sales_Stg.Dbo.Dim_Channel

@@ -1,6 +1,6 @@
 USE pc_sales_stg GO
 /* Create the SP for the dim product*/
-create Procedure Sp_Create_Dim_Product as begin
+CREATE OR ALTER Procedure Sp_Create_Dim_Product as begin
 /*Drop the initial product dimension without a unique ID */
 drop table
   Pc_Sales_Stg.Dbo.Dim_Product

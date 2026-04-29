@@ -1,4 +1,4 @@
-USE pc_sales_stg GO create Procedure Sp_Create_Dim_Store as begin
+USE pc_sales_stg GO CREATE OR ALTER Procedure Sp_Create_Dim_Store as begin
 /*Drop the initial store dimension without a unique ID*/
 drop table
   Pc_Sales_Stg.Dbo.Dim_Store

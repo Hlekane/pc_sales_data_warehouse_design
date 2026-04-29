@@ -1,6 +1,6 @@
 USE pc_sales_stg GO
 /*Create SP for dim Salesperson*/
-create Procedure Sp_Create_Dim_Salesperson as begin
+CREATE OR ALTER Procedure Sp_Create_Dim_Salesperson as begin
 /*Drop the initial salesperson dimension without a unique ID */
 drop table
   Pc_Sales_Stg.Dbo.Dim_Salesperson
