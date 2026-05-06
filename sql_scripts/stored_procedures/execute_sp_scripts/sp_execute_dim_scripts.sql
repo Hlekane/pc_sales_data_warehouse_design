@@ -1,30 +1,31 @@
 /* Execution scripts to call on the saved stored procedures statements*/
-USE pc_sales_stg GO CREATE
-OR ALTER Procedure Sp_Get_Dims as begin Exec Sp_Create_Dim_Customer;
+ CREATE
+Procedure Sp_Get_Dims as begin Exec sp_create_dim_customer;
 
 
-Exec Sp_Create_Dim_Product;
+Exec sp_create_dim_product;
 
 
-Exec Sp_Create_Dim_Date;
+Exec sp_create_dim_date;
 
 
-Exec Sp_Create_Dim_Salesperson;
+Exec sp_create_dim_salesperson;
 
 
-Exec Sp_Create_Dim_Location;
+Exec sp_create_dim_location;
 
 
-Exec Sp_Create_Dim_Channel;
+Exec sp_create_dim_channel;
 
 
-Exec Sp_Create_Dim_Payment_Method;
+Exec sp_create_dim_payment_method;
 
 
-Exec Sp_Create_Dim_Priority;
+Exec sp_create_dim_priority;
 
 
-Exec Sp_Create_Dim_Store;
+Exec sp_create_dim_store;
 
 
 end;
+Go

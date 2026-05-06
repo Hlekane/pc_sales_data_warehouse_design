@@ -1,26 +1,33 @@
-USE pc_sales_stg GO CREATE
-OR ALTER Procedure Sp_Create_Dim_Priority as begin
+CREATE PROCEDURE sp_create_dim_priority
+AS
+BEGIN
 /*Drop the initial priority dimension  without a unique ID*/
-drop table
-  Pc_Sales_Stg.Dbo.Dim_Priority
-  /*Create a new table and insert a unique ID*/
+IF OBJECT_ID('pc_sales_stg.dbo.dim_priority', 'U') IS NOT NULL
+DROP TABLE
+  pc_sales_stg.dbo.dim_priority;
+
+
+/* Create a new table and insert a unique ID*/
 create table
-  Pc_Sales_Stg.Dbo.Dim_Priority(
-    Priority_Id int Identity(1, 1) Primary Key,
-    Priority Nvarchar(255) not null,
-    LoadDate Datetime default Getdate()
+  Pc_Sales_Stg.dbo.dim_priority (
+    Priority_ID INT IDENTITY (1, 1) PRIMARY KEY,
+    Priority nvarchar (255) NOT NULL,
+    LoadDate DATETIME DEFAULT GETDATE ()
   )
-  /*Insert data into the priority dimension from the staging dataset, use 
-   distinct to remove duplicates*/
+  /* Insert data into the priority dimension from the staging dataset, 
+   use distinct to remove duplicates*/
 insert into
-  Pc_Sales_Stg.Dbo.Dim_Priority(Priority)
+  Pc_Sales_Stg.Dbo.Dim_Priority (Priority)
 select
   distinct Priority
 from
-  Pc_Sales_Stg.Dbo.Pc_Sales_Dataset_Stg
-  /*Check whether the table was successfully created*/
+  Pc_Sales_Stg.dbo.Pc_Sales_Dataset_Stg;
+
+
+/*Check whether the table was successfully created*/
 select
   *
 from
-  Pc_Sales_Stg.Dbo.Dim_Priority
-end;
+  Pc_Sales_Stg.dbo.Dim_Priority;
+  END;
+  GO
