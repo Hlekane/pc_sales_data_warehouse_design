@@ -1,4 +1,5 @@
-USE PC_Sales_Stg GO
+USE PC_Sales_Stg 
+GO
 /* drop dim customer if it exists*/
 IF OBJECT_ID ('pc_sales_stg.dbo.dim_customer', 'U') IS NOT NULL -- tsql logic that allows you to drop the table and recreate it if it exists
 DROP TABLE
