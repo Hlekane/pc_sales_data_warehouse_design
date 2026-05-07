@@ -1,218 +1,175 @@
-# 🖥️ PC Sales Data Warehouse
+﻿# 🖥️ PC Sales Data Warehouse
 
 ![Status](https://img.shields.io/badge/Status-Staging%20Phase-orange)
 ![SQL Server](https://img.shields.io/badge/SQL%20Server-T--SQL-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-A data engineering project focused on building a solid and scalable ETL pipeline for a PC sales business. The project is being developed incrementally. It is currently at the staging phase, which forms the foundation of any reliable data pipeline.
+A hands-on data engineering project that builds a PC sales data warehouse pipeline focusing on staging, profiling, and the first dimensional load.
 
 ---
 
-## 📌 Overview
+## 📌 Project Overview
 
-This project is a hands-on learning journey through the core disciplines of data engineering. The current focus is the **data landing and staging layer**, the critical first step in building a pipeline that is clean, auditable, and scalable.
+This repository designs and implements a staging-focused data warehouse pipeline for a PC sales dataset.
+The primary goal is to land raw CSV data into SQL Server, build staging objects, and create the first dimensional tables and fact table from the staged data.
 
-The staging layer is where raw source data lands before anything else happens to it. Getting this right matters because a well-structured staging layer protects the integrity of everything downstream, from validation through to the final dimensional model.
+Key concepts covered:
 
-The transformation and extraction layers will be built out as the project progresses.
-
----
-
-## 📍 Current Focus — Staging Layer
-
-The staging phase is the active area of development. This is where raw CSV data is ingested into SQL Server and prepared for downstream processing.
-
-**What is being built at this stage:**
-
-- Staging tables that receive raw source data as-is, without modification
-- Stored procedures to create, reset, and reload staging tables between pipeline runs
-- A repeatable and automated ingestion process that can be rerun cleanly at any point
-
-> The staging layer is intentionally kept separate from any transformation logic. Its only job is to land data safely and preserve it exactly as it arrived from the source.
+- Raw data ingestion and staging
+- Dimension table creation
+- Fact table population
+- Stored procedure orchestration
+- Data profiling and column grouping
 
 ---
 
-## ⚙️ Pipeline Phases
+## 🎯 What's Included
 
-| Phase | Description | Status |
-|---|---|---|
-| **Extract** | Define extraction method and source file handling | 📋 Planned |
-| **Stage** | Land raw CSV data into SQL Server staging tables | 🔄 In Progress |
-| **Validate** | Apply schema, null, duplicate and type checks against staged data | 📋 Planned |
-| **Transform** | Cleanse and standardise data for dimensional loading | 📋 Planned |
-| **Load** | Populate fact and dimension tables | 📋 Planned |
-| **Automate** | Schedule ETL workflows using SQL Server Agent | 📋 Planned |
-
----
-
-## 🗃️ Staging Layer — Detail
-
-Raw source data is loaded into staging tables before any transformation is applied. This preserves the original data, supports full auditability, and allows the pipeline to be reprocessed without data loss.
-
-Stored procedures handle:
-
-- Creating and resetting staging tables between pipeline runs
-- Preparing dimension and fact table shells for loading
-- Supporting repeatable, automated ETL execution
+- `raw_data/pc_sales_dataset_Stg.csv` — source PC sales dataset
+- `sql_scripts/create_pc_sales_stg_db.sql` — creates the staging and data warehouse databases
+- `sql_scripts/column_grouping_and_data_profiling.sql` — profiling queries and column grouping exploration
+- `sql_scripts/data_profiling_with_dims.sql` — dimension build queries and raw profiling output
+- `sql_scripts/dim_tables/` — dimension creation scripts for customer, product, date, salesperson, location, channel, payment, priority, and store
+- `sql_scripts/fact_table/10.fact_pc_sales_staging.sql` — fact table creation from staging
+- `sql_scripts/stored_procedures/` — stored procedures for building dimensions and fact tables
+- `sql_scripts/stored_procedures/execute_sp_scripts/` — execution wrappers to run all dimension and fact procedures
+- `sql_scripts/stored_procedures/drop_procedure/` — cleanup scripts for stored procedures
+- `data_architecture/` and `data_planning_docs/` — supporting documentation and architecture planning
 
 ---
 
-## ✅ Data Validation *(Planned)*
+## 🧩 Architecture Summary
 
-Once staging is complete, the following checks will be applied to the staged data before any transformation begins:
+This project currently targets a staging-first data warehouse architecture:
 
-| Check | Description |
-|---|---|
-| Schema Validation | Confirm correct columns and data types are present |
-| Null Checks | Verify that required fields contain values |
-| Duplicate Detection | Identify and reject repeated records |
-| Data Type Validation | Confirm date and numeric fields are correctly formatted |
-| Row Count Reconciliation | Verify that the staged row count matches the source CSV |
-| Referential Sanity | Perform basic relationship checks between key fields |
+1. Raw CSV data is placed in `raw_data/`
+2. SQL Server databases are created: `pc_sales_stg` and `pc_sales_dwh`
+3. A staging table is expected to hold the raw dataset as `Pc_Sales_Stg.dbo.Pc_Sales_Dataset_Stg`
+4. Dimension tables are created from the staging dataset
+5. The fact table is populated from the same staging source
 
----
-
-## 🌟 Star Schema Design *(Target Model- data warehouse)*
-
-The intended dimensional model is a star schema centred on `Fact_PC_Sales`, supported by eight dimension tables. This will be built out during the load phase.
-
-<img width="1009" height="893" alt="pc_data_modelling" src="https://github.com/user-attachments/assets/bff544ee-7809-4aac-b8e8-2d4a8e7d1cb7" />
-
-
-### Fact Table — `Fact_PC_Sales`
-
-| Column | Type | Description |
-|---|---|---|
-| PC_Sales_ID | PK | Unique identifier for each sale |
-| Location_ID | FK | Links to Dim_Location |
-| Date_ID | FK | Links to Dim_Date |
-| Customer_ID | FK | Links to Dim_Customer |
-| SalesPerson_ID | FK | Links to Dim_Salesperson |
-| Store_ID | FK | Links to Dim_Store |
-| Payment_ID | FK | Links to Dim_Payment |
-| Product_ID | FK | Links to Dim_Product |
-| Priority_ID | FK | Links to Dim_Priority |
-| Channel_ID | FK | Links to Dim_Channel |
-| Sales_Price | Measure | Unit sale price |
-| Total_Sales | Measure | Total transaction value |
-| Credit_Score | Measure | Customer credit score at time of sale |
-| Discount_Amount | Measure | Discount applied to the transaction |
-| Cost_Price | Measure | Product cost price |
-| Cost_Of_Repairs | Measure | Post-sale repair cost |
-
-### Dimension Tables
-
-| Dimension | Key Attributes |
-|---|---|
-| `Dim_Customer` | Customer_Name, Contact_Number, Email, Shipping_Address |
-| `Dim_Product` | PC_Make, PC_Model, Storage_Type, RAM, Storage_Capacity |
-| `Dim_Date` | Transactional_Date, Ship_Date |
-| `Dim_Location` | Continent, Country_Or_State, Province_Or_City |
-| `Dim_Store` | Store_Name, Store_Age |
-| `Dim_Salesperson` | Salesperson_Name, Department, Sales_Location |
-| `Dim_Payment` | Payment_Method |
-| `Dim_Channel` | Channel (e.g. Online, In-Store) |
-| `Dim_Priority` | Priority Level |
+The current implementation lives in the staging database, with `pc_sales_dwh` reserved for the final warehouse layer.
 
 ---
 
-## 🛠️ Tech Stack
+## 📦 Data Model
 
-| Tool | Purpose |
-|---|---|
-| SQL Server | Database engine |
-| T-SQL | Stored procedures and pipeline logic |
-| SSMS | Development and query environment |
-| Notion | Project planning and task tracking |
-| Draw.io | Star schema design |
-| Git / GitHub | Version control |
+The dataset supports an eventual star schema with a central sales fact table and multiple dimensions.
+
+### Core dimensions
+
+- `Dim_Customer`
+- `Dim_Product`
+- `Dim_Date`
+- `Dim_Salesperson`
+- `Dim_Location`
+- `Dim_Channel`
+- `Dim_Payment_Method`
+- `Dim_Priority`
+- `Dim_Store`
+
+### Fact table
+
+- `Pc_Sales_Fact`
+
+The fact table contains sales metrics such as `Cost_Price`, `Sale_Price`, `Discount_Amount`, `Finance_Amount`, `Credit_Score`, `Cost_Of_Repairs`, `Total_Sales_Per_Employee`, and `Pc_Market_Price`.
 
 ---
 
-## 📁 Repository Structure
+## 🛠️ Database Objects
 
+### Databases created
+
+- `pc_sales_stg`
+- `pc_sales_dwh`
+
+### Key SQL objects
+
+- Dimension creation scripts: `sql_scripts/dim_tables/*.sql`
+- Fact creation script: `sql_scripts/fact_table/10.fact_pc_sales_staging.sql`
+- Stored procedures for dimensions and fact: `sql_scripts/stored_procedures/*.sql`
+- Execution wrappers: `sql_scripts/stored_procedures/execute_sp_scripts/*.sql`
+- Cleanup procedures: `sql_scripts/stored_procedures/drop_procedure/*.sql`
+
+---
+
+## 🚀 How to Use This Project
+
+### 1. Create the databases
+
+Open `sql_scripts/create_pc_sales_stg_db.sql` and run it in SQL Server Management Studio.
+
+### 2. Load the raw source data
+
+Import `raw_data/pc_sales_dataset_Stg.csv` into a staging table named `Pc_Sales_Stg.dbo.Pc_Sales_Dataset_Stg`.
+This can be done with SQL Server Import Wizard, `BULK INSERT`, or `OPENROWSET`.
+
+### 3. Create the dimension tables
+
+Run the stored procedure execution script:
+
+```sql
+sql_scripts/stored_procedures/execute_sp_scripts/sp_execute_dim_scripts.sql
 ```
-pc-sales-data-warehouse/
-│
-├── docs/
-│   └── PC_Data_Modelling.jpg       # Star schema diagram
-│
-├── staging/
-│   ├── create_staging_tables.sql   # Staging table definitions
-│   └── stored_procedures.sql       # ETL stored procedures
-│
-├── validation/
-│   └── validation_checks.sql       # Data quality checks (planned)
-│
-├── schema/
-│   └── star_schema_ddl.sql         # Dimension and fact table DDL (planned)
-│
-└── README.md
+
+### 4. Create the fact table
+
+Run the fact execution script:
+
+```sql
+sql_scripts/stored_procedures/execute_sp_scripts/sp_execute_fact_script.sql
+```
+
+### 5. Review profiling and column grouping
+
+Run:
+
+```sql
+sql_scripts/column_grouping_and_data_profiling.sql
+sql_scripts/data_profiling_with_dims.sql
 ```
 
 ---
 
-## 🚀 Getting Started
+## 📌 Current Status
 
-### Prerequisites
-
-- SQL Server (2019 or later recommended)
-- SQL Server Management Studio (SSMS)
-
-### Setup
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/your-username/pc-sales-data-warehouse.git
-   ```
-
-2. Open SSMS and connect to your SQL Server instance.
-
-3. Run the staging table definitions:
-   ```sql
-   -- staging/create_staging_tables.sql
-   ```
-
-4. Execute the stored procedures to initialise the staging layer:
-   ```sql
-   -- staging/stored_procedures.sql
-   ```
-
-5. Place your source CSV file in the expected directory and run the extract step to land data into the staging tables.
+- Database creation: ✅ Done
+- Raw source dataset available: ✅ Done
+- Staging data landing: ✅ Planned / ready for import
+- Dimension load scripts: ✅ Drafted and executable
+- Fact table script: ✅ Drafted and executable
+- Stored procedure orchestration: ✅ Available
+- End-to-end automation: ⚠️ In progress
 
 ---
 
-## 🗂️ Project Status
+## 🔍 Notes
 
-| Epic | Status |
-|---|---|
-| Requirements Analysis | ✅ Complete |
-| Architecture Design | ✅ Complete |
-| Project Initialisation | ✅ Complete |
-| Staging Layer | 🟡 In Progress |
-| Validation | ⚪ Planned |
-| Transformation Layer | ⚪ Planned |
-| Extraction Layer | ⚪ Planned |
-| Load | ⚪ Planned |
-| Automation | ⚪ Planned |
+- The current implementation uses `DISTINCT` to reduce duplicate values when building dimensions.
+- Dimension and fact objects are created in `pc_sales_stg` today; the final warehouse load into `pc_sales_dwh` is a planned next step.
+- Quality checks, validation rules, and production-ready automation are future enhancements.
 
 ---
 
-## 🔜 Roadmap
+## 📁 Folder Guide
 
-This project is being built one layer at a time. Each phase will be completed and documented before the next begins.
-
-1. ✅ Set up repository, naming conventions and project board
-2. ✅ Design star schema and define target dimensional model
-3. 🔄 Build and validate the staging layer *(current)*
-4. ⚪ Implement data validation checks against staged data
-5. ⚪ Build the transformation layer
-6. ⚪ Build the extraction layer
-7. ⚪ Load dimension and fact tables
-8. ⚪ Automate pipeline using SQL Server Agent
+- `raw_data/` — source CSV dataset
+- `sql_scripts/` — all SQL definitions, procedures, and ETL scripts
+- `data_architecture/` — modelling and architecture design artifacts
+- `data_planning_docs/` — project documentation, planning, and analysis
 
 ---
 
-## 📝 About
+## 📚 Recommended Next Steps
 
-This project is a structured, learning path through data engineering and data warehousing. The focus at each stage is depth over speed — understanding why each layer exists and how it contributes to a pipeline that is reliable, scalable, and maintainable.
+1. Add a staging ingestion script or automated `BULK INSERT` logic.
+2. Implement validation on required columns, null values, and data types.
+3. Move final dimension and fact loads into `pc_sales_dwh`.
+4. Add documentation for deployment and scheduling.
+5. Create a data dictionary for the source and warehouse schema.
+
+---
+
+## 📜 License
+
+This repository is intended for learning and development and is shared under an open/learning-style license.
