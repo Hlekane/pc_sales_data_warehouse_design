@@ -1,6 +1,18 @@
-/* Data validation and quality checks for warehouse */
+-- =============================================
+-- Script: Data Quality Checks for Warehouse
+-- Purpose: This script runs various checks to ensure the data
+--          loaded into the warehouse is clean and valid.
+-- Level: Beginner-friendly with detailed explanations
+-- =============================================
 
-/* Check row counts for all dimensions */
+PRINT 'Starting data quality checks for the warehouse...';
+
+-- =============================================
+-- Check 1: Row Counts - How many records in each table?
+-- =============================================
+PRINT '=== ROW COUNT SUMMARY ===';
+PRINT 'This shows how many records were loaded into each table:';
+
 SELECT 'dim_customer' AS Table_Name, COUNT(*) AS Row_Count FROM pc_sales_dw.dbo.dim_customer
 UNION ALL
 SELECT 'dim_product', COUNT(*) FROM pc_sales_dw.dbo.dim_product
@@ -21,7 +33,15 @@ SELECT 'dim_store', COUNT(*) FROM pc_sales_dw.dbo.dim_store
 UNION ALL
 SELECT 'fact_pc_sales', COUNT(*) FROM pc_sales_dw.dbo.fact_pc_sales;
 
-/* Check for nulls in fact table key columns */
+PRINT 'If any table has 0 rows, there might be an issue with the loading process.';
+PRINT '';
+
+-- =============================================
+-- Check 2: NULL Values in Fact Table Foreign Keys
+-- =============================================
+PRINT '=== NULL CHECKS IN FACT TABLE ===';
+PRINT 'Checking for NULL values in foreign key columns (should all be 0):';
+
 SELECT
     SUM(CASE WHEN Channel_ID IS NULL THEN 1 ELSE 0 END) AS Null_Channel_ID,
     SUM(CASE WHEN Customer_ID IS NULL THEN 1 ELSE 0 END) AS Null_Customer_ID,
@@ -34,7 +54,15 @@ SELECT
     SUM(CASE WHEN Product_ID IS NULL THEN 1 ELSE 0 END) AS Null_Product_ID
 FROM pc_sales_dw.dbo.fact_pc_sales;
 
-/* Check for invalid numeric values in fact table */
+PRINT 'All values should be 0. If not, some fact records couldn''t match to dimensions.';
+PRINT '';
+
+-- =============================================
+-- Check 3: Invalid Numeric Values
+-- =============================================
+PRINT '=== INVALID NUMERIC VALUES CHECK ===';
+PRINT 'Checking for negative values in numeric columns (should all be 0):';
+
 SELECT
     COUNT(*) AS Total_Records,
     SUM(CASE WHEN Cost_Price < 0 THEN 1 ELSE 0 END) AS Negative_Cost_Price,
@@ -47,7 +75,15 @@ SELECT
     SUM(CASE WHEN Credit_Score < 0 THEN 1 ELSE 0 END) AS Negative_Credit_Score
 FROM pc_sales_dw.dbo.fact_pc_sales;
 
-/* Referential integrity check: ensure all fact keys exist in dimensions */
+PRINT 'All negative counts should be 0. Negative values indicate data quality issues.';
+PRINT '';
+
+-- =============================================
+-- Check 4: Referential Integrity (Orphaned Records)
+-- =============================================
+PRINT '=== REFERENTIAL INTEGRITY CHECK ===';
+PRINT 'Checking for fact records that don''t have matching dimension records (should all be 0):';
+
 SELECT 'Orphaned Channel_ID' AS Issue, COUNT(*) AS Count
 FROM pc_sales_dw.dbo.fact_pc_sales f
 LEFT JOIN pc_sales_dw.dbo.dim_channel d ON f.Channel_ID = d.Channel_ID
@@ -108,3 +144,9 @@ SELECT 'Orphaned Product_ID', COUNT(*)
 FROM pc_sales_dw.dbo.fact_pc_sales f
 LEFT JOIN pc_sales_dw.dbo.dim_product d ON f.Product_ID = d.Product_ID
 WHERE d.Product_ID IS NULL;
+
+PRINT 'All counts should be 0. If not, there are "orphaned" records that couldn''t be matched.';
+PRINT 'This could happen if dimension data was filtered out during cleaning.';
+PRINT '';
+PRINT 'Data quality checks completed!';
+PRINT 'Review the results above. If everything looks good (mostly 0s), your warehouse is ready!';
