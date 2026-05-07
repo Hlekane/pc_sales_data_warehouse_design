@@ -44,3 +44,5 @@ from
   Pc_Sales_Stg.dbo.Dim_Customer;
 END;
 GO
+
+Exec sp_create_dim_customer;

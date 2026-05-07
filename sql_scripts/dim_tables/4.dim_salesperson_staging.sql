@@ -1,30 +1,22 @@
-/*Drop the initial salesperson dimension without a unique ID*/
+/* Drop the initial salesperson dimension without a unique ID */
 IF OBJECT_ID('pc_sales_stg.dbo.dim_salesperson', 'U') IS NOT NULL
-DROP TABLE
-  pc_sales_stg.dbo.dim_salesperson;
+    DROP TABLE pc_sales_stg.dbo.dim_salesperson;
 
+/* Create a new table and insert a unique ID */
+CREATE TABLE pc_sales_stg.dbo.dim_salesperson (
+    Salesperson_ID INT IDENTITY(1, 1) PRIMARY KEY,
+    Sales_Person_Name NVARCHAR(255) NOT NULL,
+    Sales_Person_Department NVARCHAR(255) NOT NULL,
+    LoadDate DATETIME DEFAULT GETDATE()
+);
 
-/* Create a new table and insert a unique ID*/
-create table
-  Pc_Sales_Stg.dbo.dim_salesperson (
-    Salesperson_ID INT IDENTITY (1, 1) PRIMARY KEY,
-    Sales_Person_Name nvarchar (255) NOT NULL,
-    Sales_Person_Department nvarchar (255) NOT NULL,
-    LoadDate DATETIME DEFAULT GETDATE ()
-  )
-  /* Insert data into the salesperson dimension from the staging dataset,
-   use distinct to remove duplicates*/
-insert into
-  Pc_Sales_Stg.Dbo.Dim_Salesperson (Sales_Person_Name, Sales_Person_Department)
-select
-  distinct Sales_Person_Name,
-  Sales_Person_Department
-from
-  Pc_Sales_Stg.dbo.Pc_Sales_Dataset_Stg;
+/* Insert data into the salesperson dimension from the staging dataset, use DISTINCT to remove duplicates */
+INSERT INTO pc_sales_stg.dbo.dim_salesperson (Sales_Person_Name, Sales_Person_Department)
+SELECT DISTINCT
+    Sales_Person_Name,
+    Sales_Person_Department
+FROM pc_sales_stg.dbo.pc_sales_dataset_stg;
 
-
-/*Check whether the table was successfully created*/
-select
-  *
-from
-  Pc_Sales_Stg.dbo.Dim_Salesperson;
+/* Check whether the table was successfully created */
+SELECT *
+FROM pc_sales_stg.dbo.dim_salesperson;

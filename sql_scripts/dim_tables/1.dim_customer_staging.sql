@@ -1,42 +1,32 @@
 
-/* drop dim customer if it exists*/
-IF OBJECT_ID ('pc_sales_stg.dbo.dim_customer', 'U') IS NOT NULL -- tsql logic that allows you to drop the table and recreate it if it exists
-DROP TABLE
-  pc_sales_stg.dbo.dim_customer;
+/* Drop dim customer if it exists */
+IF OBJECT_ID('pc_sales_stg.dbo.dim_customer', 'U') IS NOT NULL  -- T-SQL logic that allows you to drop the table and recreate it if it exists
+    DROP TABLE pc_sales_stg.dbo.dim_customer;
 
+/* Create a new table and insert a unique ID */
+CREATE TABLE pc_sales_stg.dbo.dim_customer (
+    Customer_ID INT IDENTITY(1, 1) PRIMARY KEY,
+    Customer_Name NVARCHAR(255) NOT NULL,
+    Customer_Surname NVARCHAR(255) NOT NULL,
+    Customer_Contact_Number NVARCHAR(255) NOT NULL,
+    Customer_Email_Address NVARCHAR(255) NOT NULL,
+    LoadDate DATETIME DEFAULT GETDATE()
+);
 
-/*Create a new table and insert a unique ID*/
-create table
-  Pc_Sales_Stg.dbo.dim_customer (
-    Customer_ID INT IDENTITY (1, 1) PRIMARY KEY,
-    Customer_Name nvarchar (255) NOT NULL,
-    Customer_Surname nvarchar (255) NOT NULL,
-    Customer_Contact_Number nvarchar (255) NOT NULL,
-    Customer_Email_Address nvarchar (255) NOT NULL,
-    LoadDate DATETIME DEFAULT GETDATE ()
-  );
-
-
-/* Insert data into the customer dimension from the staging dataset, 
- use distinct to remove duplicates*/
-insert into
-  Pc_Sales_Stg.Dbo.Dim_Customer (
+/* Insert data into the customer dimension from the staging dataset, use DISTINCT to remove duplicates */
+INSERT INTO pc_sales_stg.dbo.dim_customer (
     Customer_Name,
     Customer_Surname,
     Customer_Contact_Number,
     Customer_Email_Address
-  )
-select
-  distinct Customer_Name,
-  Customer_Surname,
-  Customer_Contact_Number,
-  Customer_Email_Address
-from
-  Pc_Sales_Stg.dbo.Pc_Sales_Dataset_Stg;
+)
+SELECT DISTINCT
+    Customer_Name,
+    Customer_Surname,
+    Customer_Contact_Number,
+    Customer_Email_Address
+FROM pc_sales_stg.dbo.pc_sales_dataset_stg;
 
-
-/* Select the table to see if the insert was correct*/
-select
-  *
-from
-  Pc_Sales_Stg.dbo.Dim_Customer;
+/* Select the table to see if the insert was correct */
+SELECT *
+FROM pc_sales_stg.dbo.dim_customer;

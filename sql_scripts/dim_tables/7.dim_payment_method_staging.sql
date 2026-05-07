@@ -1,28 +1,20 @@
-/* Drop the initial payment dimension without a unique ID*/
+/* Drop the initial payment dimension without a unique ID */
 IF OBJECT_ID('pc_sales_stg.dbo.dim_payment_method', 'U') IS NOT NULL
-DROP TABLE
-  pc_sales_stg.dbo.dim_payment_method;
+    DROP TABLE pc_sales_stg.dbo.dim_payment_method;
 
+/* Create a new table and insert a unique ID */
+CREATE TABLE pc_sales_stg.dbo.dim_payment_method (
+    Payment_Method_ID INT IDENTITY(1, 1) PRIMARY KEY,
+    Payment_Method NVARCHAR(255) NOT NULL,
+    LoadDate DATETIME DEFAULT GETDATE()
+);
 
-/* Create a new table and insert a unique ID*/
-create table
-  Pc_Sales_Stg.dbo.dim_payment_method (
-    Payment_Method_ID INT IDENTITY (1, 1) PRIMARY KEY,
-    Payment_Method nvarchar (255) NOT NULL,
-    LoadDate DATETIME DEFAULT GETDATE ()
-  )
-  /*Insert data into the payment dimension from the staging dataset, 
-   use distinct to remove duplicates */
-insert into
-  Pc_Sales_Stg.Dbo.Dim_Payment_Method (Payment_Method)
-select
-  distinct Payment_Method
-from
-  Pc_Sales_Stg.dbo.Pc_Sales_Dataset_Stg;
+/* Insert data into the payment dimension from the staging dataset, use DISTINCT to remove duplicates */
+INSERT INTO pc_sales_stg.dbo.dim_payment_method (Payment_Method)
+SELECT DISTINCT
+    Payment_Method
+FROM pc_sales_stg.dbo.pc_sales_dataset_stg;
 
-
-/*Check whether the table was successfully created*/
-select
-  *
-from
-  Pc_Sales_Stg.dbo.Dim_Payment_Method;
+/* Check whether the table was successfully created */
+SELECT *
+FROM pc_sales_stg.dbo.dim_payment_method;

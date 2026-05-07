@@ -1,10 +1,9 @@
--- CREATING A TABLE
+/* Create fact table */
 IF OBJECT_ID('pc_sales_stg.dbo.pc_sales_fact', 'U') IS NOT NULL
     DROP TABLE pc_sales_stg.dbo.pc_sales_fact;
 
 CREATE TABLE pc_sales_stg.dbo.pc_sales_fact (
-    PC_Sales_ID INT IDENTITY (1,1) PRIMARY KEY,
-
+    PC_Sales_ID INT IDENTITY(1, 1) PRIMARY KEY,
     Channel_ID INT NOT NULL,
     Customer_ID INT NOT NULL,
     Date_ID INT NOT NULL,
@@ -14,21 +13,19 @@ CREATE TABLE pc_sales_stg.dbo.pc_sales_fact (
     Location_ID INT NOT NULL,
     Payment_Method_ID INT NOT NULL,
     Product_ID INT NOT NULL,
-
-    Cost_Price DECIMAL(10,2) NOT NULL,
-    Sale_Price DECIMAL(10,2) NOT NULL,
-    Discount_Amount DECIMAL(10,2) NOT NULL,
-    Finance_Amount DECIMAL(10,2) NOT NULL,
-    Cost_of_Repairs DECIMAL(10,2) NOT NULL,
-    Total_Sales_per_Employee DECIMAL(10,2) NOT NULL,
-    PC_Market_Price DECIMAL(10,2) NOT NULL,
+    Cost_Price DECIMAL(10, 2) NOT NULL,
+    Sale_Price DECIMAL(10, 2) NOT NULL,
+    Discount_Amount DECIMAL(10, 2) NOT NULL,
+    Finance_Amount DECIMAL(10, 2) NOT NULL,
+    Cost_of_Repairs DECIMAL(10, 2) NOT NULL,
+    Total_Sales_per_Employee DECIMAL(10, 2) NOT NULL,
+    PC_Market_Price DECIMAL(10, 2) NOT NULL,
     Credit_Score INT NOT NULL,
     LoadDate DATETIME DEFAULT GETDATE()
 );
 
--- INSERTING VALUES INTO THE TABLE
+/* Insert values into table */
 INSERT INTO pc_sales_stg.dbo.pc_sales_fact (
-
     Channel_ID,
     Customer_ID,
     Date_ID,
@@ -38,7 +35,6 @@ INSERT INTO pc_sales_stg.dbo.pc_sales_fact (
     Location_ID,
     Payment_Method_ID,
     Product_ID,
-
     Cost_Price,
     Sale_Price,
     Discount_Amount,
@@ -48,7 +44,6 @@ INSERT INTO pc_sales_stg.dbo.pc_sales_fact (
     PC_Market_Price,
     Credit_Score
 )
-
 SELECT
     ch.Channel_ID,
     c.Customer_ID,
@@ -59,7 +54,6 @@ SELECT
     l.Location_ID,
     pm.Payment_Method_ID,
     p.Product_ID,
-
     std.Cost_Price,
     std.Sale_Price,
     std.Discount_Amount,
@@ -68,9 +62,9 @@ SELECT
     std.Total_Sales_per_Employee,
     std.PC_Market_Price,
     std.Credit_Score
-
 FROM pc_sales_stg.dbo.pc_sales_dataset_stg AS std
 
+/* Join on dimensions */
 INNER JOIN pc_sales_stg.dbo.dim_channel ch
     ON std.Channel = ch.Channel
 
@@ -110,7 +104,6 @@ INNER JOIN pc_sales_stg.dbo.dim_product p
     AND std.Storage_Type = p.Storage_Type
     AND std.RAM = p.RAM;
 
-
--- CHECK DATA
-SELECT * 
+/* Check the data */
+SELECT *
 FROM pc_sales_stg.dbo.pc_sales_fact;

@@ -1,18 +1,19 @@
 USE master;
 
+GO
+
+/* Create Staging Database */
+IF DB_ID('pc_sales_stg') IS NULL
+BEGIN
+    CREATE DATABASE pc_sales_stg;
+END;
 
 GO
-/*Create Staging Database*/
-IF DB_ID ('pc_sales_stg') IS NULL begin create Database pc_sales_stg;
 
+/* Create Data Warehouse Database */
+IF DB_ID('pc_sales_dwh') IS NULL
+BEGIN
+    CREATE DATABASE pc_sales_dwh;
+END;
 
-end;
-go
-
-
-/* Create Data Warehouse Database*/
-IF DB_ID ('pc_sales_dwh') IS NULL begin create Database Pc_Sales_Dwh;
-
-
-end;
-go
+GO
