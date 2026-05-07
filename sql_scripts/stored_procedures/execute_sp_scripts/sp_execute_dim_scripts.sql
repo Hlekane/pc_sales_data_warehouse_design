@@ -1,31 +1,15 @@
-/* Execution scripts to call on the saved stored procedures statements*/
- CREATE
-Procedure Sp_Get_Dims as begin Exec sp_create_dim_customer;
-
-
-Exec sp_create_dim_product;
-
-
-Exec sp_create_dim_date;
-
-
-Exec sp_create_dim_salesperson;
-
-
-Exec sp_create_dim_location;
-
-
-Exec sp_create_dim_channel;
-
-
-Exec sp_create_dim_payment_method;
-
-
-Exec sp_create_dim_priority;
-
-
-Exec sp_create_dim_store;
-
-
-end;
-Go
+/* Execution script to run the dimension stored procedures */
+CREATE OR ALTER PROCEDURE sp_get_dims
+AS
+BEGIN
+    EXEC sp_create_dim_customer;
+    EXEC sp_create_dim_product;
+    EXEC sp_create_dim_date;
+    EXEC sp_create_dim_salesperson;
+    EXEC sp_create_dim_location;
+    EXEC sp_create_dim_channel;
+    EXEC sp_create_dim_payment_method;
+    EXEC sp_create_dim_priority;
+    EXEC sp_create_dim_store;
+END;
+GO

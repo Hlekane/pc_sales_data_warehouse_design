@@ -1,34 +1,29 @@
-CREATE PROCEDURE sp_create_dim_date
+CREATE OR ALTER PROCEDURE sp_create_dim_date
 AS
 BEGIN
-/*Drop the initial date dimension without a unique ID*/
-IF OBJECT_ID(' pc_sales_stg.dbo.dim_date', 'U') IS NOT NULL
-DROP TABLE
-  pc_sales_stg.dbo.dim_date
-  /*Create a new table and insert a unique ID*/
-create table
-  Pc_Sales_Stg.dbo.dim_date (
-    Date_ID INT IDENTITY (1, 1) PRIMARY KEY,
-    Purchase_Date datetime2 (7) NOT NULL,
-    Ship_Date nvarchar (50) NOT NULL,
-    LoadDate DATETIME DEFAULT GETDATE ()
-  )
-  /*Insert data into the date dimension from the staging dataset, use 
-   distinct to remove duplicates*/
-insert into
-  Pc_Sales_Stg.Dbo.Dim_Date (Purchase_Date, Ship_Date)
-select
-  distinct Purchase_Date,
-  Ship_Date
-from
-  Pc_Sales_Stg.dbo.Pc_Sales_Dataset_Stg;
+    /* Drop dim_date if it exists */
+    IF OBJECT_ID('pc_sales_stg.dbo.dim_date', 'U') IS NOT NULL
+    BEGIN
+        DROP TABLE pc_sales_stg.dbo.dim_date;
+    END;
 
+    /* Create a new table and insert a unique ID */
+    CREATE TABLE pc_sales_stg.dbo.dim_date (
+        Date_ID INT IDENTITY(1, 1) PRIMARY KEY,
+        Purchase_Date DATETIME2(7) NOT NULL,
+        Ship_Date NVARCHAR(50) NOT NULL,
+        LoadDate DATETIME DEFAULT GETDATE()
+    );
 
-/*Check whether the table was successfully created*/
-select
-  *
-from
-  Pc_Sales_Stg.dbo.Dim_Date;
+    /* Insert data into the date dimension from the staging dataset, use DISTINCT to remove duplicates */
+    INSERT INTO pc_sales_stg.dbo.dim_date (Purchase_Date, Ship_Date)
+    SELECT DISTINCT
+        Purchase_Date,
+        Ship_Date
+    FROM pc_sales_stg.dbo.pc_sales_dataset_stg;
 
-  END;
-  GO
+    /* Check whether the table was successfully created */
+    SELECT *
+    FROM pc_sales_stg.dbo.dim_date;
+END;
+GO

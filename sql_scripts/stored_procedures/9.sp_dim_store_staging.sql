@@ -1,35 +1,29 @@
-CREATE PROCEDURE sp_create_dim_store
+CREATE OR ALTER PROCEDURE sp_create_dim_store
 AS
 BEGIN
-/*Drop the initial store dimension without a unique ID*/
-IF OBJECT_ID('pc_sales_Stg.dbo.dim_store', 'U') IS NOT NULL
-DROP TABLE
-  pc_sales_Stg.dbo.dim_store;
+    -- Drop dim_store if it exists
+    IF OBJECT_ID('pc_sales_stg.dbo.dim_store', 'U') IS NOT NULL
+    BEGIN
+        DROP TABLE pc_sales_stg.dbo.dim_store;
+    END;
 
+    -- Create a new table and insert a unique ID
+    CREATE TABLE pc_sales_stg.dbo.dim_store (
+        Store_ID INT IDENTITY(1, 1) PRIMARY KEY,
+        Shop_Name NVARCHAR(255) NOT NULL,
+        Shop_Age NVARCHAR(255) NOT NULL,
+        LoadDate DATETIME DEFAULT GETDATE()
+    );
 
-/* Create a new table and insert a unique ID*/
-create table
-  Pc_Sales_Stg.dbo.dim_store (
-    Store_ID INT IDENTITY (1, 1) PRIMARY KEY,
-    Shop_Name nvarchar (255) NOT NULL,
-    Shop_Age nvarchar (255) NOT NULL,
-    LoadDate DATETIME DEFAULT GETDATE ()
-  )
-  /*Insert data into the store dimension from the staging dataset, 
-   use distinct to remove duplicates*/
-insert into
-  Pc_Sales_Stg.Dbo.Dim_Store (Shop_Name, Shop_Age)
-select
-  distinct Shop_Name,
-  Shop_Age
-from
-  Pc_Sales_Stg.dbo.Pc_Sales_Dataset_Stg;
+    -- Insert data into the store dimension from the staging dataset, use DISTINCT to remove duplicates
+    INSERT INTO pc_sales_stg.dbo.dim_store (Shop_Name, Shop_Age)
+    SELECT DISTINCT
+        Shop_Name,
+        Shop_Age
+    FROM pc_sales_stg.dbo.pc_sales_dataset_stg;
 
-
-/*Check whether the table was successfully created*/
-select
-  *
-from
-  Pc_Sales_Stg.dbo.Dim_Store;
-  END;
-  GO
+    -- Check whether the table was successfully created
+    SELECT *
+    FROM pc_sales_stg.dbo.dim_store;
+END;
+GO
