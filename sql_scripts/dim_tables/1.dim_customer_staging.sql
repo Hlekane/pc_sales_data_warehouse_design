@@ -32,5 +32,5 @@ FROM
   pc_sales_stg.dbo.pc_sales_dataset_stg;
 
 
--- Select the table to see if the insert was correct (commented out for production)
--- SELECT * FROM pc_sales_stg.dbo.dim_customer;
+/* Select the table to see if the insert was correct (commented out for production)
+ SELECT * FROM pc_sales_stg.dbo.dim_customer; */

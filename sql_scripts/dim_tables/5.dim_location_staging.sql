@@ -25,5 +25,5 @@ FROM
   pc_sales_stg.dbo.pc_sales_dataset_stg;
 
 
--- Check whether the table was successfully created (commented out for production)
--- SELECT * FROM pc_sales_stg.dbo.dim_location;
+/* Check whether the table was successfully created (commented out for production)
+ SELECT * FROM pc_sales_stg.dbo.dim_location; */
