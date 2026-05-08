@@ -1,9 +1,10 @@
 /* =============================================
-Stored Procedure: Execute Dimension Scripts (Staging)
-Purpose: This procedure executes all dimension creation procedures.
-============================================= */
+ Stored Procedure: Execute Dimension Scripts (Staging)
+ Purpose: This procedure executes all dimension creation procedures.
+ ============================================= */
 CREATE
-OR ALTER PROCEDURE sp_get_dims AS BEGIN /* Execute dimension stored procedures */
+OR ALTER PROCEDURE sp_get_dims AS BEGIN
+/* Execute dimension stored procedures */
 EXEC sp_create_dim_customer;
 
 

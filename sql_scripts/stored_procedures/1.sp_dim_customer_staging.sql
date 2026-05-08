@@ -1,10 +1,11 @@
 /* =============================================
-Stored Procedure: Create Customer Dimension (Staging)
-Purpose: This procedure creates the customer dimension table
-          in the staging database by loading data from the raw dataset.
-============================================= */
+ Stored Procedure: Create Customer Dimension (Staging)
+ Purpose: This procedure creates the customer dimension table
+ in the staging database by loading data from the raw dataset.
+ ============================================= */
 CREATE
-OR ALTER PROCEDURE sp_create_dim_customer AS BEGIN /* Print a message to show the procedure started */
+OR ALTER PROCEDURE sp_create_dim_customer AS BEGIN
+/* Print a message to show the procedure started */
 PRINT 'Starting customer dimension creation...';
 
 

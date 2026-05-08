@@ -1,10 +1,11 @@
 /* =============================================
-Stored Procedure: Create Product Dimension (Staging)
-Purpose: This procedure creates the product dimension table
-          in the staging database by loading data from the raw dataset.
-============================================= */
+ Stored Procedure: Create Product Dimension (Staging)
+ Purpose: This procedure creates the product dimension table
+ in the staging database by loading data from the raw dataset.
+ ============================================= */
 CREATE
-OR ALTER PROCEDURE sp_create_dim_product AS BEGIN /* Print a message to show the procedure started */
+OR ALTER PROCEDURE sp_create_dim_product AS BEGIN
+/* Print a message to show the procedure started */
 PRINT 'Starting product dimension creation...';
 
 

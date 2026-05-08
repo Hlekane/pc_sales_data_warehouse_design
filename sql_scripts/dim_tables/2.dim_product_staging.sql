@@ -1,8 +1,8 @@
 /* =============================================
-Script: Create Product Dimension Table (Staging)
-Purpose: This script creates the product dimension table
-          in the staging database by loading data from the raw dataset.
-============================================= */
+ Script: Create Product Dimension Table (Staging)
+ Purpose: This script creates the product dimension table
+ in the staging database by loading data from the raw dataset.
+ ============================================= */
 /* Create a new table and insert a unique ID */
 CREATE TABLE
   pc_sales_stg.dbo.dim_product (

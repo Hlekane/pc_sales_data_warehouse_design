@@ -1,8 +1,8 @@
 /* =============================================
-Script: Create PC Sales Fact Table (Staging)
-Purpose: This script creates the PC sales fact table
-          in the staging database by joining with dimension tables.
-============================================= */
+ Script: Create PC Sales Fact Table (Staging)
+ Purpose: This script creates the PC sales fact table
+ in the staging database by joining with dimension tables.
+ ============================================= */
 /* Create fact table */
 IF OBJECT_ID('pc_sales_stg.dbo.pc_sales_fact', 'U') IS NOT NULL
 DROP TABLE
@@ -74,8 +74,8 @@ SELECT
   std.Credit_Score
 FROM
   pc_sales_stg.dbo.pc_sales_dataset_stg AS std
-/* Join on dimensions */
-INNER JOIN pc_sales_stg.dbo.dim_channel ch ON std.Channel = ch.Channel
+  /* Join on dimensions */
+  INNER JOIN pc_sales_stg.dbo.dim_channel ch ON std.Channel = ch.Channel
   INNER JOIN pc_sales_stg.dbo.dim_customer c ON std.Customer_Name = c.Customer_Name
   AND std.Customer_Surname = c.Customer_Surname
   AND std.Customer_Contact_Number = c.Customer_Contact_Number

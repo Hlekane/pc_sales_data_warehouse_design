@@ -1,8 +1,8 @@
 /* =============================================
-Script: Create Payment Method Dimension Table (Staging)
-Purpose: This script creates the payment method dimension table
-          in the staging database by loading data from the raw dataset.
-============================================= */
+ Script: Create Payment Method Dimension Table (Staging)
+ Purpose: This script creates the payment method dimension table
+ in the staging database by loading data from the raw dataset.
+ ============================================= */
 /* Create a new table and insert a unique ID */
 CREATE TABLE
   pc_sales_stg.dbo.dim_payment_method (
