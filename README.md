@@ -34,6 +34,7 @@ Key concepts covered:
 - `sql_scripts/stored_procedures/` — stored procedures for building dimensions and fact tables
 - `sql_scripts/stored_procedures/execute_sp_scripts/` — execution wrappers to run all dimension and fact procedures
 - `sql_scripts/stored_procedures/drop_procedure/` — cleanup scripts for stored procedures
+- `cleaned_layer_scripts/` — final warehouse layer scripts and validation checks
 - `data_architecture/` and `data_planning_docs/` — supporting documentation and architecture planning
 
 ---
@@ -154,7 +155,8 @@ sql_scripts/data_profiling_with_dims.sql
 ## 📁 Folder Guide
 
 - `raw_data/` — source CSV dataset
-- `sql_scripts/` — all SQL definitions, procedures, and ETL scripts
+- `sql_scripts/` — staging SQL definitions, procedures, and ETL scripts
+- `cleaned_layer_scripts/` — final cleaned warehouse layer scripts and validation checks
 - `data_architecture/` — modelling and architecture design artifacts
 - `data_planning_docs/` — project documentation, planning, and analysis
 
