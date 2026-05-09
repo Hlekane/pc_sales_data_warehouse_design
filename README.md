@@ -1,25 +1,25 @@
-﻿# 🖥️ PC Sales Data Warehouse
+# 🖥️ PC Sales Data Warehouse
 
 ![Status](https://img.shields.io/badge/Status-Staging%20Phase-orange)
 ![SQL Server](https://img.shields.io/badge/SQL%20Server-T--SQL-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-A hands-on data engineering project that builds a PC sales data warehouse pipeline focusing on staging, profiling, and the first dimensional load.
+A hands-on data engineering project that builds a PC sales data warehouse pipeline with both staging and cleaned warehouse layers.
 
 ---
 
 ## 📌 Project Overview
 
-This repository designs and implements a staging-focused data warehouse pipeline for a PC sales dataset.
-The primary goal is to land raw CSV data into SQL Server, build staging objects, and create the first dimensional tables and fact table from the staged data.
+This repository designs and implements a two-layer SQL Server data warehouse pipeline for a PC sales dataset.
+The primary goal is to land raw CSV data into SQL Server, build staging objects, and then transform those results into a cleaned warehouse layer with dimensional tables and a fact table.
 
 Key concepts covered:
 
 - Raw data ingestion and staging
-- Dimension table creation
-- Fact table population
-- Stored procedure orchestration
-- Data profiling and column grouping
+- Dimension table creation in staging
+- Cleaned warehouse dimension and fact table loading
+- Stored procedure orchestration for both layers
+- Data profiling, column grouping, and validation
 
 ---
 
@@ -41,15 +41,16 @@ Key concepts covered:
 
 ## 🧩 Architecture Summary
 
-This project currently targets a staging-first data warehouse architecture:
+This project implements a two-layer warehouse architecture:
 
 1. Raw CSV data is placed in `raw_data/`
 2. SQL Server databases are created: `pc_sales_stg` and `pc_sales_dwh`
-3. A staging table is expected to hold the raw dataset as `Pc_Sales_Stg.dbo.Pc_Sales_Dataset_Stg`
-4. Dimension tables are created from the staging dataset
-5. The fact table is populated from the same staging source
+3. The source dataset is landed into a staging table such as `pc_sales_stg.dbo.Pc_Sales_Dataset_Stg`
+4. Staging dimensions and fact load the intermediate model
+5. Warehouse/cleaned layer scripts transform staging outputs into final warehouse dimensions and fact records
+6. Warehouse validation checks certify the cleaned layer
 
-The current implementation lives in the staging database, with `pc_sales_dwh` reserved for the final warehouse layer.
+Both the staging layer and the cleaned warehouse layer are included in this repository.
 
 ---
 
@@ -86,10 +87,13 @@ The fact table contains sales metrics such as `Cost_Price`, `Sale_Price`, `Disco
 
 ### Key SQL objects
 
-- Dimension creation scripts: `sql_scripts/dim_tables/*.sql`
-- Fact creation script: `sql_scripts/fact_table/10.fact_pc_sales_staging.sql`
-- Stored procedures for dimensions and fact: `sql_scripts/stored_procedures/*.sql`
-- Execution wrappers: `sql_scripts/stored_procedures/execute_sp_scripts/*.sql`
+- Staging dimension scripts: `sql_scripts/dim_tables/*.sql`
+- Staging fact script: `sql_scripts/fact_table/10.fact_pc_sales_staging.sql`
+- Staging procedure wrappers: `sql_scripts/stored_procedures/execute_sp_scripts/*.sql`
+- Warehouse dimension scripts: `cleaned_layer_scripts/dim_tables/*.sql`
+- Warehouse fact script: `cleaned_layer_scripts/fact_table/10.fact_pc_sales_warehouse.sql`
+- Warehouse procedure wrappers: `cleaned_layer_scripts/stored_procedures/execute_sp_scripts/*.sql`
+- Warehouse validation: `cleaned_layer_scripts/data_validation/data_quality_checks_warehouse.sql`
 - Cleanup procedures: `sql_scripts/stored_procedures/drop_procedure/*.sql`
 
 ---
@@ -160,7 +164,7 @@ sql_scripts/stored_procedures/execute_sp_scripts/sp_execute_fact_script.sql
 
 ```sql
 cleaned_layer_scripts/stored_procedures/execute_sp_scripts/sp_execute_dim_scripts_warehouse.sql
-sql_scripts/cleaned_layer_scripts/stored_procedures/execute_sp_scripts/sp_execute_fact_script_warehouse.sql
+cleaned_layer_scripts/stored_procedures/execute_sp_scripts/sp_execute_fact_script_warehouse.sql
 ```
 
 6. Validate the warehouse data:
@@ -175,19 +179,19 @@ cleaned_layer_scripts/data_validation/data_quality_checks_warehouse.sql
 
 - Database creation: ✅ Done
 - Raw source dataset available: ✅ Done
-- Staging data landing: ✅ Planned / ready for import
-- Dimension load scripts: ✅ Drafted and executable
-- Fact table script: ✅ Drafted and executable
-- Stored procedure orchestration: ✅ Available
+- Staging dimension and fact scripts: ✅ Available
+- Warehouse/cleaned layer scripts: ✅ Included
+- Warehouse validation checks: ✅ Included
 - End-to-end automation: ⚠️ In progress
 
 ---
 
 ## 🔍 Notes
 
-- The current implementation uses `DISTINCT` to reduce duplicate values when building dimensions.
-- Dimension and fact objects are created in `pc_sales_stg` today; the final warehouse load into `pc_sales_dwh` is a planned next step.
-- Quality checks, validation rules, and production-ready automation are future enhancements.
+- The repository includes both staging objects and the cleaned warehouse layer.
+- The cleaned warehouse layer transforms staging outputs into final dimensional models.
+- Warehouse validation checks are available under `cleaned_layer_scripts/data_validation/`.
+- Quality checks, production orchestration, and deployment-ready automation are next-phase improvements.
 
 ---
 
@@ -201,13 +205,13 @@ cleaned_layer_scripts/data_validation/data_quality_checks_warehouse.sql
 
 ---
 
-## 📚 Recommended Next Steps
+## ▶️ What is next
 
-1. Add a staging ingestion script or automated `BULK INSERT` logic.
-2. Implement validation on required columns, null values, and data types.
-3. Move final dimension and fact loads into `pc_sales_dwh`.
-4. Add documentation for deployment and scheduling.
-5. Create a data dictionary for the source and warehouse schema.
+1. Load `raw_data/PC_sales_dataset_Stg.csv` into the staging table and run the staging pipeline.
+2. Run the cleaned warehouse layer with `cleaned_layer_scripts/stored_procedures/execute_sp_scripts/*.sql`.
+3. Execute warehouse validation checks in `cleaned_layer_scripts/data_validation/data_quality_checks_warehouse.sql`.
+4. Add automation for source ingestion and end-to-end execution.
+5. Document source-to-target mappings, deployment steps, and the final warehouse schema.
 
 ---
 
