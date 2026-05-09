@@ -3,7 +3,6 @@
 -- Purpose: This script creates the main fact table in the data warehouse
 --          by joining cleaned dimension tables with validated staging data.
 --          The fact table stores measurable sales transaction data.
--- Level: Beginner-friendly with detailed explanations
 -- =============================================
 
 -- Step 1: Check if the fact table already exists and drop it if it does

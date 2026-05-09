@@ -2,7 +2,6 @@
 -- Script: Data Quality Checks for Warehouse
 -- Purpose: This script runs various checks to ensure the data
 --          loaded into the warehouse is clean and valid.
--- Level: Beginner-friendly with detailed explanations
 -- =============================================
 
 PRINT 'Starting data quality checks for the warehouse...';

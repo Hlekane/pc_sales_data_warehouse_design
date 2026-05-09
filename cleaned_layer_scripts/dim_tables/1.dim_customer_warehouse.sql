@@ -3,7 +3,6 @@
  Purpose: This script creates a cleaned version of the customer dimension
  in the data warehouse (pc_sales_dw) by copying and cleaning data
  from the staging database (pc_sales_stg).
- Level: Beginner-friendly with detailed explanations
  ============================================= */
 /* Step 1: Check if the table already exists and drop it if it does
  This prevents errors if we run the script multiple times

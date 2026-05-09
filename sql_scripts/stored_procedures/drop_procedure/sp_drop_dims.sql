@@ -1,5 +1,5 @@
 /* Create a stored procedure to drop the dimension stored procedures */
-CREATE OR ALTER PROCEDURE sp_drop_dim_procedures
+CREATE OR ALTER PROCEDURE sp_drop_dimension_procedures
 AS
 BEGIN
     DROP PROCEDURE IF EXISTS sp_create_dim_customer;
