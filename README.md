@@ -132,6 +132,45 @@ sql_scripts/data_profiling_with_dims.sql
 
 ---
 
+## ⚡ Quick Start
+
+Run the commands in this order in SQL Server Management Studio:
+
+1. Create the staging/warehouse databases:
+
+```sql
+sql_scripts/create_pc_sales_stg_db.sql
+```
+
+2. Load the source CSV into `pc_sales_stg.dbo.Pc_Sales_Dataset_Stg`.
+
+3. Build staging dimensions:
+
+```sql
+sql_scripts/stored_procedures/execute_sp_scripts/sp_execute_dim_scripts.sql
+```
+
+4. Build the staging fact table:
+
+```sql
+sql_scripts/stored_procedures/execute_sp_scripts/sp_execute_fact_script.sql
+```
+
+5. Build the cleaned warehouse layer:
+
+```sql
+cleaned_layer_scripts/stored_procedures/execute_sp_scripts/sp_execute_dim_scripts_warehouse.sql
+sql_scripts/cleaned_layer_scripts/stored_procedures/execute_sp_scripts/sp_execute_fact_script_warehouse.sql
+```
+
+6. Validate the warehouse data:
+
+```sql
+cleaned_layer_scripts/data_validation/data_quality_checks_warehouse.sql
+```
+
+---
+
 ## 📌 Current Status
 
 - Database creation: ✅ Done
