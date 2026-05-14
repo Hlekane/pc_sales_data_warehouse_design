@@ -17,6 +17,16 @@ Key concepts covered: raw data ingestion, dimension and fact table design, store
 
 ---
 
+## Quick links
+
+[![View star schema](https://img.shields.io/badge/Star%20Schema-Diagram-blue?style=for-the-badge)](data_architecture/pc_data_modelling.jpg)
+[![Open validation script](https://img.shields.io/badge/Warehouse-Validation-green?style=for-the-badge)](cleaned_layer_scripts/data_validation/data_quality_checks_warehouse.sql)
+[![View warehouse fact](https://img.shields.io/badge/Facts-Load%20Script-orange?style=for-the-badge)](cleaned_layer_scripts/fact_table/10.fact_pc_sales_warehouse.sql)
+[![View dimensions](https://img.shields.io/badge/Warehouse-Dimensions-purple?style=for-the-badge)](cleaned_layer_scripts/dim_tables/)
+[![Business requirements](https://img.shields.io/badge/Requirements-BUSINESS_REQUIREMENTS.md-lightgrey?style=for-the-badge)](BUSINESS_REQUIREMENTS.md)
+
+---
+
 ## Prerequisites
 
 - SQL Server 2019 or later (Developer or Standard edition)
@@ -61,17 +71,17 @@ The warehouse uses a star schema with a central fact table and nine dimension ta
 
 ### Dimensions
 
-| Table | Description |
-|---|---|
-| `Dim_Customer` | Customer attributes |
-| `Dim_Product` | PC product details |
-| `Dim_Date` | Calendar date dimension |
-| `Dim_Salesperson` | Sales staff |
-| `Dim_Location` | Geographic location |
-| `Dim_Channel` | Sales channel |
-| `Dim_Payment_Method` | Payment type |
-| `Dim_Priority` | Order priority |
-| `Dim_Store` | Store details |
+| Table                | Description             |
+| -------------------- | ----------------------- |
+| `Dim_Customer`       | Customer attributes     |
+| `Dim_Product`        | PC product details      |
+| `Dim_Date`           | Calendar date dimension |
+| `Dim_Salesperson`    | Sales staff             |
+| `Dim_Location`       | Geographic location     |
+| `Dim_Channel`        | Sales channel           |
+| `Dim_Payment_Method` | Payment type            |
+| `Dim_Priority`       | Order priority          |
+| `Dim_Store`          | Store details           |
 
 ### Fact table
 
@@ -131,14 +141,14 @@ sql_scripts/data_profiling_with_dims.sql
 
 ## Current status
 
-| Layer | Status |
-|---|---|
-| Database creation | ✅ Done |
-| Raw source dataset | ✅ Done |
-| Staging dimensions and fact | ✅ Done |
-| Warehouse dimensions and fact | ✅ Done |
-| Warehouse validation checks | ✅ Done |
-| End-to-end automation | ⚠️ In progress |
+| Layer                         | Status         |
+| ----------------------------- | -------------- |
+| Database creation             | ✅ Done        |
+| Raw source dataset            | ✅ Done        |
+| Staging dimensions and fact   | ✅ Done        |
+| Warehouse dimensions and fact | ✅ Done        |
+| Warehouse validation checks   | ✅ Done        |
+| End-to-end automation         | ⚠️ In progress |
 
 ---
 
